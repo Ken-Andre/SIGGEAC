@@ -93,4 +93,6 @@ comment on role "serv_off_full_access" is $$
 
 
 --===================================================
-GRANT EXECUTE ON PROCEDURE ModifierEtudiant to "student_data_modif";
+
+
+

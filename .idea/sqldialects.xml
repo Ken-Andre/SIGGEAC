@@ -2,5 +2,8 @@
 <project version="4">
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/SQL/040_Siggeac_Insertions.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/SQL/10_Procedures_stockees.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/SQL/Contrôle d'accès/student_data_gpa.sql" dialect="PostgreSQL" />
+    <file url="PROJECT" dialect="PostgreSQL" />
   </component>
 </project>

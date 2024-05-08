@@ -160,7 +160,7 @@ $$ LANGUAGE plpgsql;
 COMMENT ON PROCEDURE MDD.ModifierOffre
     IS 'Modifie l''offre de cours pour le sigle et le trimestre spécifiés.';
 
---
+-- ==================Groupes==================
 SET search_path to offreservices;
 CREATE OR REPLACE PROCEDURE MDD.AjouterGroupe(
     IN p_numero_groupe "MDD".nogroupe,
@@ -202,3 +202,92 @@ END;
 $$ LANGUAGE plpgsql;
 COMMENT ON PROCEDURE MDD.ModifierGroupe
     IS 'Modifie les détails du groupe de cours spécifié pour le sigle et le trimestre spécifiés.';
+
+-- ==================Competences==================
+SET search_path to professeur;
+CREATE OR REPLACE PROCEDURE professeur.AjouterCompetence(
+    IN p_matriculep "MDD".matriculep,
+    IN p_sigle "MDD".sigle
+)
+AS $$
+BEGIN
+    INSERT INTO competence(matriculep, sigle)
+    VALUES (p_matriculep, p_sigle);
+END;
+$$ LANGUAGE plpgsql;
+COMMENT ON PROCEDURE professeur.AjouterCompetence
+    IS 'Ajoute une nouvelle compétence au professeur spécifié.';
+
+CREATE OR REPLACE PROCEDURE professeur.RetirerCompetence(
+    IN p_matriculep "MDD".matriculep,
+    IN p_sigle "MDD".sigle
+)
+AS $$
+BEGIN
+    DELETE FROM competence
+    WHERE matriculep = p_matriculep AND sigle = p_sigle;
+END;
+$$ LANGUAGE plpgsql;
+COMMENT ON PROCEDURE professeur.RetirerCompetence IS 'Retire la compétence spécifiée du professeur spécifié.';
+
+-- ==================Disponibilite==================
+SET search_path to professeur;
+CREATE OR REPLACE PROCEDURE professeur.AjouterDisponibilite(
+    IN p_trimestre "MDD".trimestre,
+    IN p_matriculep "MDD".matriculep
+
+
+)
+AS $$
+BEGIN
+    INSERT INTO disponibilite(trimestre,matriculep)
+    VALUES (p_trimestre,p_matriculep);
+END;
+$$ LANGUAGE plpgsql;
+COMMENT ON PROCEDURE professeur.AjouterDisponibilite
+    IS 'Ajoute une nouvelle disponibilité au professeur spécifié.';
+
+CREATE OR REPLACE PROCEDURE professeur.RetirerDisponibilite(
+    IN p_trimestre "MDD".trimestre,
+    IN p_matriculep "MDD".matriculep
+)
+AS $$
+BEGIN
+    DELETE FROM disponibilite
+    WHERE matriculep = p_matriculep
+    AND trimestre = p_trimestre;
+END;
+$$ LANGUAGE plpgsql;
+COMMENT ON PROCEDURE professeur.RetirerDisponibilite IS 'Retire la disponibilité spécifiée du professeur spécifié.';
+
+-- ==================Affectation==================
+SET search_path to professeur;
+CREATE OR REPLACE PROCEDURE professeur.AjouterAffectation(
+    IN p_matriculep INT,
+    IN p_sigle VARCHAR(10),
+    IN p_trimestre VARCHAR(20)
+)
+AS $$
+BEGIN
+    INSERT INTO affectation(matriculep, sigle, trimestre)
+    VALUES (p_matriculep, p_sigle, p_trimestre);
+END;
+$$ LANGUAGE plpgsql;
+COMMENT ON PROCEDURE professeur.AjouterAffectation
+    IS 'Ajoute une nouvelle affectation au professeur spécifié.';
+
+CREATE OR REPLACE PROCEDURE professeur.RetirerAffectation(
+    IN p_matriculep INT,
+    IN p_sigle VARCHAR(10),
+    IN p_trimestre VARCHAR(20)
+)
+AS $$
+BEGIN
+    DELETE FROM affectation
+    WHERE matriculep = p_matriculep
+    AND sigle = p_sigle
+    AND trimestre = p_trimestre;
+END;
+$$ LANGUAGE plpgsql;
+COMMENT ON PROCEDURE professeur.RetirerAffectation
+    IS 'Retire l''affectation spécifiée du professeur spécifié.';
